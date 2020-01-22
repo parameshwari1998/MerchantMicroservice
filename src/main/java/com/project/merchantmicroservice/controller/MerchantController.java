@@ -7,9 +7,9 @@ import com.project.merchantmicroservice.entity.Merchant;
 import com.project.merchantmicroservice.service.MerchantService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/merchant")
 public class MerchantController {
@@ -17,12 +17,13 @@ public class MerchantController {
     @Autowired
     MerchantService merchantService;
 
+    @GetMapping("/verify")
     boolean verifyMerchant(String merchantId){
         return merchantService.isMerchant(merchantId);
     }
 
-
-    ResponseDto<Merchant> getMerchantDetails(String merchantId){
+    @GetMapping("/get/{id}")
+    ResponseDto<Merchant> getMerchantDetails(@PathVariable("id") String merchantId){
         ResponseDto<Merchant> responseDto = new ResponseDto<>();
         try{
             Merchant merchantCreated= merchantService.getMerchantDetails(merchantId);
@@ -36,8 +37,8 @@ public class MerchantController {
         return responseDto;
     }
 
-
-    ResponseDto<Merchant> createMerchant(MerchantDto merchantDto){
+    @PostMapping("/")
+    ResponseDto<Merchant> createMerchant(@RequestBody MerchantDto merchantDto){
         Merchant merchant=new Merchant();
         BeanUtils.copyProperties(merchantDto,merchant);
         ResponseDto<Merchant> responseDto = new ResponseDto<>();

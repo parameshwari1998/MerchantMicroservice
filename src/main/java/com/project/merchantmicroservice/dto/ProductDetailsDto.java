@@ -10,9 +10,9 @@ import lombok.Setter;
 public class ProductDetailsDto {
 
     private String productId;
-    private Merchant merchantId;
-    private Integer quantity;
-    private Integer totalProductsSold;
-    private Integer price;
+    private String merchantId;
+    private int productQuantity;
+    private long totalProductsSold;
+    private double productPrice;
 
 }

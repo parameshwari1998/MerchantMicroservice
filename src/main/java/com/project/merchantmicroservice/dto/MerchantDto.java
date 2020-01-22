@@ -11,8 +11,8 @@ public class MerchantDto {
     private String merchantId;
     private String name;
     private BigInteger contactNo;
-    private Integer totalProductsSold;
-    private Integer rating;
+    private int totalProductsSold;
+    private int rating;
     private String email;
 
 }
