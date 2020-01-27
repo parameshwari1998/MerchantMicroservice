@@ -15,5 +15,5 @@ public class ProductDetailsOfMerchantDto {
     private String imageUrl;
     private Map<String,String> productAttributes;
     private String productDescription;
-    private int productRating;
+    private Float productRating;
 }

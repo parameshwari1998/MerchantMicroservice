@@ -18,6 +18,10 @@ public class Merchant {
     private String name;
     private BigInteger contactNo;
     private Integer totalProductsSold;
-    private Integer rating;
+    private Float merchantRating;
     private String email;
+
+    public Merchant() {
+        this.merchantRating = 5f;
+    }
 }

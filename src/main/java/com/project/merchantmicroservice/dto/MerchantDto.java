@@ -12,7 +12,7 @@ public class MerchantDto {
     private String name;
     private BigInteger contactNo;
     private int totalProductsSold;
-    private int rating;
+    private Float merchantRating;
     private String email;
 
 }

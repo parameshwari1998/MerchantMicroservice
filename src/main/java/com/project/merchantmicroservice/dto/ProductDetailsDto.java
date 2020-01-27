@@ -1,6 +1,5 @@
 package com.project.merchantmicroservice.dto;
 
-import com.project.merchantmicroservice.entity.Merchant;
 import lombok.Getter;
 import lombok.Setter;
 

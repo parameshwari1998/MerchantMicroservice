@@ -18,12 +18,15 @@ public class MerchantController {
     MerchantService merchantService;
 
     @GetMapping("/verify")
-    boolean verifyMerchant(String merchantId){
-        return merchantService.isMerchant(merchantId);
+    ResponseDto<String> verifyMerchant(@RequestHeader("merchantId") String merchantId){
+        ResponseDto<String> responseDto=new ResponseDto<>();
+        responseDto.setSuccess(merchantService.isMerchant(merchantId));
+        return responseDto;
     }
 
-    @GetMapping("/get/{id}")
-    ResponseDto<Merchant> getMerchantDetails(@PathVariable("id") String merchantId){
+    @GetMapping("/get")
+    ResponseDto<Merchant> getMerchantDetails(@RequestHeader("merchantId") String merchantId){
+     //   merchantService.computeRating();
         ResponseDto<Merchant> responseDto = new ResponseDto<>();
         try{
             Merchant merchantCreated= merchantService.getMerchantDetails(merchantId);
@@ -32,18 +35,39 @@ public class MerchantController {
             responseDto.setSuccess(true);
         }catch (Exception e){
             responseDto.setSuccess(false);
-            responseDto.setMessage("No such customer exists!!");
+            responseDto.setMessage("No such merchant exists!!");
         }
         return responseDto;
     }
 
-    @PostMapping("/")
-    ResponseDto<Merchant> createMerchant(@RequestBody MerchantDto merchantDto){
+    @PostMapping("/add")
+    ResponseDto<Merchant> createMerchant(@RequestHeader("merchantId") String merchantId,@RequestHeader("merchantEmail") String merchantEmail,@RequestBody MerchantDto merchantDto){
         Merchant merchant=new Merchant();
         BeanUtils.copyProperties(merchantDto,merchant);
+        merchant.setMerchantId(merchantId);
+        merchant.setEmail(merchantEmail);
         ResponseDto<Merchant> responseDto = new ResponseDto<>();
         try{
             Merchant merchantCreated= merchantService.updateMerchant(merchant);
+            responseDto.setData(merchantCreated);
+            responseDto.setSuccess(true);
+        }catch (Exception e){
+            responseDto.setSuccess(false);
+            responseDto.setMessage("Merchant is not created!!");
+        }
+        return responseDto;
+    }
+
+
+    @PostMapping("/update")
+    ResponseDto<Merchant> updateMerchant(@RequestHeader("merchantId") String merchantId,@RequestBody MerchantDto merchantDto){
+        Merchant merchant=new Merchant();
+        BeanUtils.copyProperties(merchantDto,merchant);
+        merchant.setMerchantId(merchantId);
+        ResponseDto<Merchant> responseDto = new ResponseDto<>();
+        try{
+            Merchant merchantCreated= merchantService.updateMerchant(merchant);
+            merchantCreated.setMerchantId("");
             responseDto.setData(merchantCreated);
             responseDto.setSuccess(true);
         }catch (Exception e){

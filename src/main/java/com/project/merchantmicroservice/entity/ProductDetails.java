@@ -19,9 +19,9 @@ public class ProductDetails {
     )
     private String productDetailsId;
     private String productId;
-    @ManyToOne
-    @JoinColumn(name = "merchant_id")
-    private Merchant merchant;
+//    @ManyToOne
+//    @JoinColumn(name = "merchant_id")
+    private String merchantId;
     private Integer productQuantity;
     private Integer totalProductsSold;
     private double productPrice;

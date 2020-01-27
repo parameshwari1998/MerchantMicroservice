@@ -11,6 +11,7 @@ public class ProductDto {
     private String imageUrl;
     private double productPrice;
     private int productQuantity;
+    private int totalProductsSold;
 
 
 }

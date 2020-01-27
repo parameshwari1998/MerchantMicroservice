@@ -17,17 +17,11 @@ public interface ProductDetailsRepository extends CrudRepository<ProductDetails,
 
     @Modifying
     @Query(
-            value = "update Cart set product_quantity=:productQuantity where product_id=:productId and merchant_id=:merchantId",
+            value = "update productDetails set product_quantity=:productQuantity , product_price=:productPrice where product_id=:productId and merchant_id=:merchantId",
             nativeQuery = true
     )
-    void updateProductQuantity(@Param("productId") String productId,@Param("merchantId") String merchantId,@Param("productQuantity") Integer productQuantity);
+    void update(@Param("productId") String productId,@Param("merchantId") String merchantId,@Param("productQuantity") Integer productQuantity,@Param("productPrice") double productPrice);
 
-    @Modifying
-    @Query(
-            value = "update Cart set product_price=:productPrice where product_id=:productId and merchant_id=:merchantId",
-            nativeQuery = true
-    )
-    void updateProductPrice(@Param("productId") String productId,@Param("merchantId") String merchantId,@Param("productPrice") double productPrice);
 
 
     @Query(
@@ -35,21 +29,41 @@ public interface ProductDetailsRepository extends CrudRepository<ProductDetails,
             nativeQuery = true
     )
     ProductDetails getProductDetails(@Param("productId") String productId,@Param("merchantId") String merchantId);
- //   ProductDetails findByProductIdAndMerchantId(String productId,String merchantId);
 
 
     @Modifying
     @Query(
-            value = "update productDetails set product_quantity=product_quantity - :quantityBrought where product_id=:productId and merchant_id=:merchantId",
+            value = "update productDetails set product_quantity=product_quantity - :quantityBrought , total_products_sold=total_products_sold + :quantityBrought  where product_id=:productId and merchant_id=:merchantId",
             nativeQuery = true
     )
     void updateProductsSold(@Param("productId") String productId,@Param("merchantId") String merchantId,@Param("quantityBrought") Integer quantityBrought);
 
 
-    List<ProductDetails> findByMerchant(String merchantId);
+    @Modifying
+    @Query(
+            value = "delete from productDetails where product_id=:productId and merchant_id=:merchantId",
+            nativeQuery = true
+    )
+    void removeProduct(@Param("productId") String productId,@Param("merchantId") String merchantId);
 
+
+    List<ProductDetails> findByMerchantId(String merchantId);
+
+    List<ProductDetails> findByMerchantIdOrderByProductQuantityDesc(String merchantId);
+
+    List<ProductDetails> findByMerchantIdOrderByProductPriceDesc(String merchantId);
+
+
+
+
+    @Query(
+            value = "select p.merchant_id, p.product_price, m.name, m.merchant_rating from ProductDetails p join merchant m on p.merchant_id=m.merchant_id where product_id=:productId order by m.merchant_rating desc",
+            nativeQuery = true
+    )
+    List<MerchantDetailsForProductPageDto> findMerchantsForProduct(@Param("productId") String productId);
 
     List<ProductDetails> findByProductId(String productId);
 
-    //List<ProductDetails> findByMerchant_name(String merchantName);
+
+
 }

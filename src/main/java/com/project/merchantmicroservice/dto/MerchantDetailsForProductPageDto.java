@@ -9,5 +9,8 @@ public class MerchantDetailsForProductPageDto {
 
     private String merchantId;
     private String merchantName;
-    private double productPrice;
+    private Double productPrice;
+    private Float merchantRating;
+
+
 }
